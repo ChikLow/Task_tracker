@@ -2,6 +2,8 @@
 {% block content %}
     <h1>Task List</h1>
 
+    <a class="btn btn-dark my-3" href="{% url 'task_form' %}" role="button"><i class="ti ti-plus"></i>  Create</a> 
+
     <div class="list-group">
         {% for task in task_list %}
         <a href="{% url 'task_detail' task.id %}" class="list-group-item list-group-item-action">{{ task.title }} - {{ task.get_status_display }} </a>
