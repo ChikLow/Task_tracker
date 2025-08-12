@@ -1,20 +1,24 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from core.forms import TaskForm
 from core.models import Task
 
-class TaskListView(ListView):
+class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = "track/task_list.html"
     context_object_name = "task_list"
+    def get_queryset(self):
+        queryset = Task.objects.filter(created_by=self.request.user)
+    
+        return queryset
 
-class TaskDetailView(DetailView):
+class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
     template_name= "track/task_detail.html"
 
-class TaskCreateView(CreateView):
+class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     #fields = ['title', 'description', 'status', 'priority', 'deadline']
     template_name = 'track/task_form.html'
