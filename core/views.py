@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from core.forms import TaskForm
 from core.models import Task
@@ -28,3 +28,14 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self,form):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
+    
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
+    model = Task
+    template_name = 'track/task_update.html'
+    success_url = reverse_lazy('task_list')
+    form_class = TaskForm
+
+class TaskDeleteView(LoginRequiredMixin, DeleteView):
+    model = Task
+    template_name = 'track/task_delete.html'
+    success_url = reverse_lazy('task_list')

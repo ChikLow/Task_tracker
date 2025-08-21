@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Edit Task</h1>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{form.as_div}}
+        <button type="submit" class="btn btn-dark mt-2">Update</button>
+        <a href="{% url 'task_delete' task.id %}" class="btn btn-danger mt-2">Delete</a>
+    </form>
+    
+{% endblock content %}
